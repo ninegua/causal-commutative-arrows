@@ -6,19 +6,21 @@ Cabal-version:  >= 1.8
 Author:         Jeremy Yallop <yallop@gmail.com>, Paul H Liu <paul@thev.net>
 
 library
-  build-depends:   CCA, base, transformers, ghc, ghc-prim, containers, vector
-  exposed-modules: Control.CCA.Instances 
+  build-depends:   base, transformers, ghc, ghc-prim, containers, vector
+  exposed-modules: Control.CCA.Types, Control.CCA.Instances 
   ghc-options:     -O2 -funfolding-use-threshold=512 
   Hs-Source-Dirs:  src
 
 Executable play
-  build-depends:  cca, base, CCA, template-haskell, HCodecs, array, mersenne-random-pure64, vector
+  build-depends:  cca, base, template-haskell, HCodecs, array, mersenne-random-pure64, vector
   Main-is:        Play.hs
+  other-modules:  SigFun Sound SoundAux
   ghc-options:    -O2 -funfolding-use-threshold=512 
   Hs-Source-Dirs: test
 
 Executable test
-  build-depends:  criterion, cca, base, CCA, template-haskell, mersenne-random-pure64, vector
+  build-depends:  criterion, cca, base, template-haskell, mersenne-random-pure64, vector
   Main-is:        Main.hs
-  ghc-options:    -O2 -funfolding-use-threshold=512 -ddump-simpl
+  other-modules:  Sample SigFun Sound SoundAux
+  ghc-options:    -O2 -funfolding-use-threshold=512
   Hs-Source-Dirs: test

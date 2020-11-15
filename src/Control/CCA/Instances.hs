@@ -222,7 +222,7 @@ instance Category (CCNF_ST s) where
    ArrST g    . LoopST i f  = LoopST i (\i -> fmap g . f i)
    LoopST j g . LoopST i f = LoopST ((,) <$> i <*> j) h
     where
-      h (i, j) x = do
+      h ~(i, j) x = do
         y <- f i x
         z <- g j y
         return z
@@ -290,7 +290,7 @@ instance ArrowLoop (CCNF_ST s) where
        -- f :: ((a, c), e) -> ST s (b, c)
        -- h :: (a, e) -> ST s b
        h i x = do
-         rec (y, j) <- f i (x, j)
+         rec ~(y, j) <- f i (x, j)
          return y
 
 instance ArrowInit (CCNF_ST s) where
@@ -304,7 +304,7 @@ instance ArrowInit (CCNF_ST s) where
 
 loopSTAux f i x = do
   u <- readSTRef i
-  let (y, v) = f (x, u)
+  let ~(y, v) = f (x, u)
   writeSTRef i v
   return y
 

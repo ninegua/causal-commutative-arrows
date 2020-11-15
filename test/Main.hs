@@ -8,15 +8,15 @@ import Control.Arrow
 import Control.Category
 import Control.Applicative
 import Control.Monad.ST
-import Control.CCA.CCNF (normOpt)
+-- import Control.CCA.CCNF (normOpt)
 import Control.CCA.Types
 import Control.CCA.Instances
 import Criterion.Main
 import qualified Sample
-import qualified SampleTH
+-- import qualified SampleTH
 import SigFun -- For continuation based SF implementation
 import qualified Sound
-import qualified SoundTH
+-- import qualified SoundTH
 
 nth :: Int -> SF () a -> a
 nth n (SF f) = x `seq` if n == 0 then x else nth (n - 1) f'
@@ -63,7 +63,7 @@ exp_normalized_nf elem = nthCCNF_D elem Sample.exp
 
 exp_normalized_st elem = nthST elem $ Sample.exp
 
-exp_normalized_th elem = nthTH elem $(normOpt SampleTH.exp)
+-- exp_normalized_th elem = nthTH elem $(normOpt SampleTH.exp)
 
 
 -- various approaches to evaluating 'sine'
@@ -82,8 +82,8 @@ sine_normalized_nf elem = nthCCNF_D elem (Sample.sine 47.0)
 sine_normalized_st :: Int -> Double
 sine_normalized_st elem = nthST elem $ (Sample.sine 47.0)
 
-sine_normalized_th :: Int -> Double
-sine_normalized_th elem = nthTH elem $(normOpt (SampleTH.sine 47.0))
+-- sine_normalized_th :: Int -> Double
+-- sine_normalized_th elem = nthTH elem $(normOpt (SampleTH.sine 47.0))
 
 -- various approaches to evaluating 'fibA'
 fibA_unnormalized :: Int -> Integer
@@ -101,8 +101,8 @@ fibA_normalized_nf elem = nthCCNF_D elem Sample.fibA
 fibA_normalized_st :: Int -> Integer
 fibA_normalized_st elem = nthST elem $ Sample.fibA
 
-fibA_normalized_th :: Int -> Integer
-fibA_normalized_th elem = nthTH elem $(normOpt SampleTH.fibA)
+-- fibA_normalized_th :: Int -> Integer
+-- fibA_normalized_th elem = nthTH elem $(normOpt SampleTH.fibA)
 
 -- various approaches to evaluating 'oscSineA'
 oscSineA_unnormalized elem = nth elem Sample.oscSineA 
@@ -115,7 +115,7 @@ oscSineA_normalized_nf elem = nthCCNF_D elem Sample.oscSineA
 
 oscSineA_normalized_st elem = nthST elem $ Sample.oscSineA
 
-oscSineA_normalized_th elem = nthTH elem $(normOpt SampleTH.oscSineA)
+-- oscSineA_normalized_th elem = nthTH elem $(normOpt SampleTH.oscSineA)
 
 -- various approaches to evaluating 'sciFi'
 sciFi_unnormalized elem = nth elem Sample.sciFi 
@@ -128,7 +128,7 @@ sciFi_normalized_nf elem = nthCCNF_D elem Sample.sciFi
 
 sciFi_normalized_st elem = nthST elem $ Sample.sciFi
 
-sciFi_normalized_th elem = nthTH elem $(normOpt SampleTH.sciFi)
+-- sciFi_normalized_th elem = nthTH elem $(normOpt SampleTH.sciFi)
 
 -- various approaches to evaluating 'robotA'
 robotA_unnormalized elem = nth elem Sample.robotA 
@@ -141,7 +141,7 @@ robotA_normalized_nf elem = nthCCNF_D elem Sample.robotA
 
 robotA_normalized_st elem = nthST elem $ Sample.robotA
 
-robotA_normalized_th elem = nthTH elem $(normOpt SampleTH.robotA)
+-- robotA_normalized_th elem = nthTH elem $(normOpt SampleTH.robotA)
 
 -- various approaches to evaluating 'flute'
 flute :: ArrowInitLine a => a () Double 
@@ -157,7 +157,7 @@ flute_normalized_nf elem = nthCCNF_D elem flute
 
 flute_normalized_st elem = nthST elem $ flute
 
-flute_normalized_th elem = nthTH elem $(normOpt $ SoundTH.flute 5 0.3 440 0.99 0.2)
+-- flute_normalized_th elem = nthTH elem $(normOpt $ SoundTH.flute 5 0.3 440 0.99 0.2)
 
 -- various approaches to evaluating 'shepard'
 shepard :: ArrowInitLine a => a () Double 
@@ -173,7 +173,7 @@ shepard_normalized_nf elem = nthCCNF_D elem shepard
 
 shepard_normalized_st elem = nthST elem $ shepard
 
-shepard_normalized_th elem = nthTH elem $(normOpt $ SoundTH.shepard 5)
+-- shepard_normalized_th elem = nthTH elem $(normOpt $ SoundTH.shepard 5)
 
 -- how many elements to evaluate
 n = 44100 * 5
@@ -198,11 +198,11 @@ main = do
                , bench "exp (loopD-normalized, with nthCCNF)" $
                  nf (exp_normalized_nf) exp_element
 
-               , bench "exp (loopD-normalized, with nthST)" $
-                 nf (exp_normalized_st) exp_element
+               -- , bench "exp (loopD-normalized, with nthST)" $
+               --  nf (exp_normalized_st) exp_element
 
-               , bench "exp (loopD-normalized, with CCA TH)" $
-                 nf (exp_normalized_th) exp_element
+               -- , bench "exp (loopD-normalized, with CCA TH)" $
+               --   nf (exp_normalized_th) exp_element
                ],
 
   bgroup "sine" [ bench "sine (unnormalized)" $
@@ -217,8 +217,8 @@ main = do
                , bench "sine (loopD-normalized, with nthST)" $
                  nf (sine_normalized_st) sine_element
 
-               , bench "sine (loopD-normalized, with CCA TH)" $
-                 nf (sine_normalized_th) sine_element
+               -- , bench "sine (loopD-normalized, with CCA TH)" $
+               --  nf (sine_normalized_th) sine_element
                ],
 
   bgroup "fibA" [ bench "fibA (unnormalized)" $
@@ -230,11 +230,11 @@ main = do
                , bench "fibA (loopD-normalized, with nthCCNF)" $
                  nf (fibA_normalized_nf) fibA_element
 
-               , bench "fibA (loopD-normalized, with nthST)" $
-                 nf (fibA_normalized_st) fibA_element
+               -- , bench "fibA (loopD-normalized, with nthST)" $
+               --  nf (fibA_normalized_st) fibA_element
 
-               , bench "fibA (loopD-normalized, with CCA TH)" $
-                 nf (fibA_normalized_th) fibA_element
+               -- , bench "fibA (loopD-normalized, with CCA TH)" $
+               --  nf (fibA_normalized_th) fibA_element
                ],
 
   bgroup "oscSineA" [ bench "oscSineA (unnormalized)" $
@@ -249,8 +249,8 @@ main = do
                , bench "oscSineA (loopD-normalized, with nthST)" $
                  nf (oscSineA_normalized_st) oscSineA_element
 
-               , bench "oscSineA (loopD-normalized, with CCA TH)" $
-                 nf (oscSineA_normalized_th) oscSineA_element
+               -- , bench "oscSineA (loopD-normalized, with CCA TH)" $
+               --  nf (oscSineA_normalized_th) oscSineA_element
                ],
 
   bgroup "sciFi" [ bench "sciFi (unnormalized)" $
@@ -265,8 +265,8 @@ main = do
                , bench "sciFi (loopD-normalized, with nthST)" $
                  nf (sciFi_normalized_st) sciFi_element
 
-               , bench "sciFi (loopD-normalized, with CCA TH)" $
-                 nf (sciFi_normalized_th) sciFi_element
+               -- , bench "sciFi (loopD-normalized, with CCA TH)" $
+               --  nf (sciFi_normalized_th) sciFi_element
                ],
 
 
@@ -282,8 +282,8 @@ main = do
                , bench "robotA (loopD-normalized, with nthST)" $
                  nf (robotA_normalized_st) robotA_element
 
-               , bench "robotA (loopD-normalized, with CCA TH)" $
-                 nf (robotA_normalized_th) robotA_element
+               -- , bench "robotA (loopD-normalized, with CCA TH)" $
+               --  nf (robotA_normalized_th) robotA_element
                ],
 
   bgroup "flute" [ bench "flute (unnormalized)" $
@@ -298,8 +298,8 @@ main = do
                , bench "flute (loopD-normalized, with nthST)" $
                  nf (flute_normalized_st) flute_element
 
-               , bench "flute (loopD-normalized, with CCA TH)" $
-                 nf (flute_normalized_th) flute_element
+               -- , bench "flute (loopD-normalized, with CCA TH)" $
+               --  nf (flute_normalized_th) flute_element
                ],
 
   bgroup "shepard" [ bench "shepard (unnormalized)" $
@@ -314,8 +314,8 @@ main = do
                , bench "shepard (loopD-normalized, with nthST)" $
                  nf (shepard_normalized_st) shepard_element
 
-               , bench "shepard (loopD-normalized, with CCA TH)" $
-                 nf (shepard_normalized_th) shepard_element
+               -- , bench "shepard (loopD-normalized, with CCA TH)" $
+               --  nf (shepard_normalized_th) shepard_element
                ]
 
 

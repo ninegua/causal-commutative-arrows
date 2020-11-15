@@ -1,8 +1,8 @@
 {-# LANGUAGE RankNTypes, TemplateHaskell #-}
 module Main where
 
-import Control.CCA
-import Control.CCA.CCNF
+-- import Control.CCA
+-- import Control.CCA.CCNF
 import Control.CCA.Types
 import Control.CCA.Instances
 import Control.Applicative
@@ -21,7 +21,7 @@ import Codec.Wav
 import Data.Audio
 import Data.Int
 import Data.List
-import qualified SoundTH
+-- import qualified SoundTH
 import qualified Sound
 
 outFile filepath dur stream =
@@ -57,11 +57,14 @@ unfoldCCNF_D (LoopD i f) = unfoldTH (i, f)
 unfoldNF = unfoldCCNF_D 
 
 playlist = 
-  [ ("-th",        -- Template Haskell optimized to CCNF
+  [ 
+  {-
+  ("-th",        -- Template Haskell optimized to CCNF
         [ ("flute",   (5.0, unfoldTH fluteTH))
         , ("shepard", (5.0, unfoldTH shepardTH))
-        ])
-  , ("-nf",        -- CCNF based arrows
+        ]),
+  -}
+    ("-nf",        -- CCNF based arrows
         [ ("flute",   (5.0, unfoldNF fluteNF))
         , ("shepard", (5.0, unfoldNF shepardNF))
         ])
@@ -99,12 +102,12 @@ safeHead (x:xs) = x
 -- fluteTH' :: SF () Double
 -- fluteTH' = $(norm fluteA)
 
-fluteTH = $(normOpt SoundTH.fluteA)
+-- fluteTH = $(normOpt SoundTH.fluteA)
 
 -- shepardTH' :: SF () Double
 -- shepardTH' = $(norm shepardA) 
 
-shepardTH = $(normOpt SoundTH.shepardA) 
+-- shepardTH = $(normOpt SoundTH.shepardA) 
 
 fluteNF :: CCNF_D () Double
 fluteNF = Sound.flute 5 0.3 440 0.99 0.2 
